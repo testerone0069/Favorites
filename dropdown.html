@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Internet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  .menu {
+    background: #111;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  .header, .subheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px 10px;
+    background: #1a1a1a;
+    border-radius: 6px;
+    margin: 5px 0;
+  }
+  .content {
+    display: none;
+    padding-left: 15px;
+  }
+  .icon-img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    flex-shrink: 0;
+    border: 1px solid white;
+  }
+  .indicator {
+    font-size: 1.2em;
+    color: #0a84ff;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<h1>My Internet</h1>
+
+<div class="menu">
+  <div class="header" onclick="toggle(this)">
+    <span><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img"> Instagram</span>
+    <span class="indicator">+</span>
+  </div>
+  <div class="content">
+    <div class="subheader" onclick="toggle(this)">
+      <span><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img"> Twitter</span>
+      <span class="indicator">+</span>
+    </div>
+    <div class="content">
+      <div class="subheader" onclick="toggle(this)">
+        <span><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img"> YouTube</span>
+        <span class="indicator">+</span>
+      </div>
+      <div class="content">
+        <p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img">
+          <a href="list.html" target="_blank">My Playlist</a>
+        </p>
+        <p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img">
+          <a href="list.html" target="_blank">Saved Videos</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="menu">
+  <div class="header" onclick="toggle(this)">
+    <span><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img"> Facebook</span>
+    <span class="indicator">+</span>
+  </div>
+  <div class="content">
+    <p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" class="icon-img">
+      <a href="list.html" target="_blank">My FB Page</a>
+    </p>
+  </div>
+</div>
+
+<script>
+function toggle(element) {
+  const content = element.nextElementSibling;
+  const icon = element.querySelector('.indicator');
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
+    icon.textContent = '+';
+  } else {
+    content.style.display = 'block';
+    icon.textContent = '−';
+  }
+}
+</script>
+</body>
+</html>
