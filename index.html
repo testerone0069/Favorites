@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Internet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background: black;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  .menu {
+    background: #111;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  .header, .subheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 8px 10px;
+    background: #1a1a1a;
+    border-radius: 6px;
+    margin: 5px 0;
+  }
+  .content {
+    display: none;
+    padding-left: 15px;
+  }
+  .icon-img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    flex-shrink: 0;
+    border: 1px solid white;
+  }
+  .indicator {
+    font-size: 1.2em;
+    color: #0a84ff;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<h1>My Internet</h1>
+  
+<div class="menu">
+  <div class="header" onclick="toggle(this)">
+    <span><img src="images/test.jpg" class="icon-img"> Instagram</span>
+    <span class="indicator">+</span>
+  </div>
+  <div class="content">
+    <div class="subheader" onclick="toggle(this)">
+      <span><img src="images/test.jpg" class="icon-img"> Twitter</span>
+      <span class="indicator">+</span>
+    </div>
+    <div class="content">
+      <div class="subheader" onclick="toggle(this)">
+        <span><img src="images/test.jpg" class="icon-img"> YouTube</span>
+        <span class="indicator">+</span>
+      </div>
+      <div class="content">
+        <p>
+          <img src="images/test.jpg" class="icon-img">
+          <a href="pages/list.html" target="_self">My Playlist</a>
+        </p>
+        <p>
+          <img src="images/test.jpg" class="icon-img">
+          <a href="pages/list.html" target="_self">Saved Videos</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="menu">
+  <div class="header" onclick="toggle(this)">
+    <span><img src="images/test.jpg" class="icon-img"> Facebook</span>
+    <span class="indicator">+</span>
+  </div>
+  <div class="content">
+    <p>
+      <img src="images/test.jpg" class="icon-img">
+      <a href="pages/list.html" target="_self">My FB Page</a>
+    </p>
+  </div>
+</div>
+
+<script>
+function toggle(element) {
+  const content = element.nextElementSibling;
+  const icon = element.querySelector('.indicator');
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
+    icon.textContent = '+';
+  } else {
+    content.style.display = 'block';
+    icon.textContent = '−';
+  }
+}
+</script>
+  
+<button id="backBtn">&#8592;</button>
+<button id="scrollTopBtn">&#8593;</button>
+<button id="forwardBtn">&#8594;</button>
+
+<style>
+#backBtn, #forwardBtn, #scrollTopBtn {
+    position: fixed;
+    bottom: 10px;
+    background-color: rgba(58, 58, 60, 0.8);
+    color: #fff;
+    border: 1px solid #3a3a3c;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    transition: background-color 0.2s;
+    z-index: 1000;
+}
+
+#backBtn {
+    left: 15px;
+}
+
+#forwardBtn {
+    right: 15px;
+}
+
+#scrollTopBtn {
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, background-color 0.2s;
+}
+
+#scrollTopBtn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#backBtn:hover, #forwardBtn:hover, #scrollTopBtn:hover {
+    background-color: #3a3a3c;
+}
+
+@media (max-width: 600px) {
+    #backBtn, #forwardBtn, #scrollTopBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    const backBtn = document.getElementById('backBtn');
+    const forwardBtn = document.getElementById('forwardBtn');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
+    });
+
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    backBtn.addEventListener('click', () => {
+        history.back();
+    });
+
+    forwardBtn.addEventListener('click', () => {
+        history.forward();
+    });
+});
+</script>
+  
+</body>
+</html>
