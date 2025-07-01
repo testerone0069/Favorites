@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown</title>
+<title>Countdown & Facts</title>
 <link rel="icon" type="image/png" href="/Favorites/favicon.png">
 <style>
     html, body {
@@ -13,12 +13,13 @@
         color: white;
         font-family: Arial, sans-serif;
         width: 100%;
-        height: 100%;
-        overflow: hidden;
+        min-height: 100%;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 20px;
     }
     .block {
         background: #000;
@@ -29,14 +30,49 @@
         width: 90%;
         max-width: 400px;
         text-align: center;
+        position: relative;
     }
     h2 {
         color: #00d1ff;
         margin-bottom: 8px;
     }
+    #fact, #quote {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #ccc;
+    }
+    .refresh-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #111;
+        border: 1px solid #444;
+        color: #00d1ff;
+        padding: 3px 6px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s, color 0.3s;
+    }
+    .refresh-btn:hover {
+        background: #222;
+        color: #00ffff;
+    }
 </style>
 </head>
 <body>
+
+<div class="block">
+    <h2>Random Fact</h2>
+    <button class="refresh-btn" onclick="fetchRandomFact()">↻</button>
+    <div id="fact">Loading...</div>
+</div>
+
+<div class="block">
+    <h2>Random Quote</h2>
+    <button class="refresh-btn" onclick="fetchRandomQuote()">↻</button>
+    <div id="quote">Loading...</div>
+</div>
 
 <div class="block">
     <h2>Current Date & Time</h2>
@@ -117,11 +153,37 @@ function updateCountdowns() {
         `${monthLeft.days} Days : ${monthLeft.hours} Hours : ${monthLeft.minutes} Minutes left`;
 }
 
+function fetchRandomFact() {
+    fetch('https://uselessfacts.jsph.pl/random.json?language=en')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('fact').innerText = data.text;
+        })
+        .catch(() => {
+            document.getElementById('fact').innerText = "Failed to load fact.";
+        });
+}
+
+function fetchRandomQuote() {
+    fetch('https://api.quotable.io/random')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('quote').innerText = `"${data.content}" — ${data.author}`;
+        })
+        .catch(() => {
+            document.getElementById('quote').innerText = "Failed to load quote.";
+        });
+}
+
 setInterval(updateDateTime, 1000);
 setInterval(updateCountdowns, 1000);
+setInterval(fetchRandomFact, 60000);
+setInterval(fetchRandomQuote, 60000);
 
 updateDateTime();
 updateCountdowns();
+fetchRandomFact();
+fetchRandomQuote();
 </script>
 
 </body>
