@@ -1,295 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Internet</title>
-  <link rel="icon" type="image/png" href="/Favorites/images/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Global Styles -->
-  <style>
-    body {
-      background: black;
-      color: white;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      margin: 0;
-      padding: 20px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Info Screen</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: white;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
-
-    h1 {
-      text-align: center;
+    .block {
+        background: #000;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
     }
-
-    h4 {
-      margin-bottom: 2px;
-      line-height: 1.2;
+    h2 {
+        color: #00d1ff;
+        margin-bottom: 8px;
     }
-
-    hr {
-      border: none;
-      border-top: 1px solid #3a3a3c;
-      margin: 15px 0;
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .menu {
-      background: #111;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #3a3a3c;
-    }
-
-    .header, .subheader {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      padding: 8px 10px;
-      background: #1a1a1a;
-      border-radius: 6px;
-      margin: 5px 0;
-    }
-
-    .content {
-      display: none;
-      padding-left: 15px;
-    }
-
-    .icon-img {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 8px;
-      flex-shrink: 0;
-      border: 1px solid #3a3a3c;
-    }
-
-    .indicator {
-      font-size: 1.2em;
-      color: #0a84ff;
-    }
-
-    /* Shortcut Bar Styles */
-    .shortcut-bar-container {
-      display: flex;
-      overflow-x: auto;
-      padding: 12px;
-      column-gap: 2px;
-      background: #1c1c1e;
-      border-radius: 12px;
-      border: 1px solid #3a3a3c;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
-    }
-
-    .shortcut-bar-container::-webkit-scrollbar {
-      display: none; /* Chrome/Safari/Edge */
-    }
-
-    .shortcut-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 70px;
-      text-align: center;
-      color: white;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .shortcut-item img {
-      width: 30px;
-      height: 30px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 6px;
-      border: 1px solid #3a3a3c;
-    }
-
-    .shortcut-item span {
-      font-size: 10px;
-    }
-
-    /* Floating Navigation Buttons */
-    #backBtn, #forwardBtn, #scrollTopBtn {
-      position: fixed;
-      bottom: 10px;
-      background-color: rgba(58, 58, 60, 0.8);
-      color: #fff;
-      border: 1px solid #3a3a3c;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      font-size: 24px;
-      transition: background-color 0.2s;
-      z-index: 1000;
-    }
-
-    #backBtn {
-      left: 15px;
-    }
-
-    #forwardBtn {
-      right: 15px;
-    }
-
-    #scrollTopBtn {
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s, background-color 0.2s;
-    }
-
-    #scrollTopBtn.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    #backBtn:hover, #forwardBtn:hover, #scrollTopBtn:hover {
-      background-color: #3a3a3c;
-    }
-
-    @media (max-width: 600px) {
-      #backBtn, #forwardBtn, #scrollTopBtn {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
-    }
-  </style>
+</style>
 </head>
-
 <body>
 
-  <h1>My Internet</h1>
+<div class="block">
+    <h2>Current Date & Time</h2>
+    <div id="dateInfo">Loading...</div>
+    <div id="timeInfo">Loading...</div>
+</div>
 
-  <hr>
+<div class="block">
+    <h2>Countdown to End of 2025</h2>
+    <div id="countdownYear">Loading...</div>
+</div>
 
-  <!-- Search Engines Section -->
-  <h4>Search Engines</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
+<div class="block">
+    <h2>Countdown to End of July</h2>
+    <div id="countdownMonth">Loading...</div>
+</div>
 
-  <hr>
+<script>
+function pad(n) {
+    return n < 10 ? '0' + n : n;
+}
 
-  <!-- Favorites Section -->
-  <h4>Favorites</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
+function updateDateTime() {
+    const now = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+    const current = new Date(now);
 
-  <hr>
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"];
 
-  <!-- Social Media Section -->
-  <h4>Social Media</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
+    const dayName = dayNames[current.getDay()];
+    const monthName = monthNames[current.getMonth()];
+    const day = pad(current.getDate());
+    const month = pad(current.getMonth() + 1);
+    const year = current.getFullYear();
+    const hours = pad(current.getHours());
+    const minutes = pad(current.getMinutes());
+    const seconds = pad(current.getSeconds());
 
-  <hr>
+    document.getElementById("dateInfo").innerText = `${dayName} | ${monthName}`;
+    document.getElementById("timeInfo").innerText = `${day}:${month}:${year} | ${hours}:${minutes}:${seconds}`;
+}
 
-  <!-- Collapsible List 1 with Nested Items -->
-  <h4>Collapse List 1</h4>
-  <div class="menu">
-    <div class="header" onclick="toggle(this)">
-      <span><img src="images/test.jpg" class="icon-img"> Instagram</span>
-      <span class="indicator">+</span>
-    </div>
-    <div class="content">
-      <div class="subheader" onclick="toggle(this)">
-        <span><img src="images/test.jpg" class="icon-img"> Twitter</span>
-        <span class="indicator">+</span>
-      </div>
-      <div class="content">
-        <div class="subheader" onclick="toggle(this)">
-          <span><img src="images/test.jpg" class="icon-img"> YouTube</span>
-          <span class="indicator">+</span>
-        </div>
-        <div class="content">
-          <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">My Playlist</a></p>
-          <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">Saved Videos</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
+function getTimeRemaining(targetDate) {
+    const now = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+    const current = new Date(now);
+    const diff = targetDate - current;
 
-  <hr>
+    if (diff <= 0) return {days: 0, hours: 0, minutes: 0};
 
-  <!-- Collapsible List 2 -->
-  <h4>Collapse List 2</h4>
-  <div class="menu">
-    <div class="header" onclick="toggle(this)">
-      <span><img src="images/test.jpg" class="icon-img"> Facebook</span>
-      <span class="indicator">+</span>
-    </div>
-    <div class="content">
-      <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">My FB Page</a></p>
-    </div>
-  </div>
+    const totalSeconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(totalSeconds / 60) % 60;
+    const hours = Math.floor(totalSeconds / (60 * 60)) % 24;
+    const days = Math.floor(totalSeconds / (60 * 60 * 24));
 
-  <!-- Floating Navigation Buttons -->
-  <button id="backBtn">&#8592;</button>
-  <button id="scrollTopBtn">&#8593;</button>
-  <button id="forwardBtn">&#8594;</button>
+    return {days, hours, minutes};
+}
 
-  <!-- JavaScript for Toggle and Navigation -->
-  <script>
-    function toggle(element) {
-      const content = element.nextElementSibling;
-      const icon = element.querySelector('.indicator');
-      if (content.style.display === 'block') {
-        content.style.display = 'none';
-        icon.textContent = '+';
-      } else {
-        content.style.display = 'block';
-        icon.textContent = '−';
-      }
+function updateCountdowns() {
+    const now = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+    const current = new Date(now);
+    const year = current.getFullYear();
+
+    const endOfYear = new Date(`2025-12-31T23:59:59+05:30`);
+    let endOfMonth = new Date(`${year}-07-31T23:59:59+05:30`);
+
+    if (current > endOfMonth) {
+        endOfMonth = new Date(`${year + 1}-07-31T23:59:59+05:30`);
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const scrollBtn = document.getElementById('scrollTopBtn');
-      const backBtn = document.getElementById('backBtn');
-      const forwardBtn = document.getElementById('forwardBtn');
+    const yearLeft = getTimeRemaining(endOfYear);
+    const monthLeft = getTimeRemaining(endOfMonth);
 
-      window.addEventListener('scroll', () => {
-        scrollBtn.classList.toggle('visible', window.scrollY > 200);
-      });
+    document.getElementById("countdownYear").innerText = 
+        `${yearLeft.days} Days : ${yearLeft.hours} Hours : ${yearLeft.minutes} Minutes left`;
 
-      scrollBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+    document.getElementById("countdownMonth").innerText = 
+        `${monthLeft.days} Days : ${monthLeft.hours} Hours : ${monthLeft.minutes} Minutes left`;
+}
 
-      backBtn.addEventListener('click', () => history.back());
-      forwardBtn.addEventListener('click', () => history.forward());
-    });
-  </script>
+setInterval(updateDateTime, 1000);
+setInterval(updateCountdowns, 1000);
+
+updateDateTime();
+updateCountdowns();
+</script>
 
 </body>
 </html>
