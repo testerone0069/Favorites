@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Internet</title>
+  <title>My List</title>
+  <link rel="icon" type="image/png" href="/Favorites/images/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Global Styles -->
@@ -17,6 +18,7 @@
 
     h1 {
       text-align: center;
+      margin-bottom: 20px;
     }
 
     h4 {
@@ -35,84 +37,62 @@
       text-decoration: none;
     }
 
-    .menu {
-      background: #111;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #3a3a3c;
-    }
-
-    .header, .subheader {
+    /* List Item Styles */
+    .list-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      padding: 8px 10px;
       background: #1a1a1a;
+      padding: 10px;
+      font-size: 13px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .thumb {
+      width: 60px;
+      height: 40px;
       border-radius: 6px;
-      margin: 5px 0;
-    }
-
-    .content {
-      display: none;
-      padding-left: 15px;
-    }
-
-    .icon-img {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
       object-fit: cover;
-      margin-right: 8px;
-      flex-shrink: 0;
+      margin-right: 12px;
       border: 1px solid #3a3a3c;
     }
 
-    .indicator {
-      font-size: 1.2em;
-      color: #0a84ff;
+    .account-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+      border: 1px solid #3a3a3c;
     }
 
-    /* Shortcut Bar Styles */
-    .shortcut-bar-container {
-      display: flex;
-      overflow-x: auto;
-      padding: 12px;
-      column-gap: 2px;
-      background: #1c1c1e;
+    .title {
+      font-size: 1em;
+    }
+
+    /* Notes Section */
+    .note-box {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px 25px;
+      background: #000;
+      border-left: 6px solid #e53935;
       border-radius: 12px;
-      border: 1px solid #3a3a3c;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .shortcut-bar-container::-webkit-scrollbar {
-      display: none; /* Chrome/Safari/Edge */
+    .note-box h3 {
+      margin-top: 0;
+      color: #b71c1c;
+      font-size: 20px;
     }
 
-    .shortcut-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 70px;
-      text-align: center;
-      color: white;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .shortcut-item img {
-      width: 30px;
-      height: 30px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 6px;
-      border: 1px solid #3a3a3c;
-    }
-
-    .shortcut-item span {
-      font-size: 10px;
+    .note-box ul {
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.5;
+      margin: 10px 0 0 0;
+      padding-left: 20px;
     }
 
     /* Floating Navigation Buttons */
@@ -171,86 +151,59 @@
 
 <body>
 
-  <h1>My Internet</h1>
+  <h1>My List</h1>
 
   <hr>
 
-  <!-- Search Engines Section -->
-  <h4>Search Engines</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
-
-  <hr>
-
-  <!-- Favorites Section -->
-  <h4>Favorites</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
-
-  <hr>
-
-  <!-- Social Media Section -->
-  <h4>Social Media</h4>
-  <div class="shortcut-bar-container">
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Google"><span>Google</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="YouTube"><span>YouTube</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Twitter"><span>Twitter</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="GitHub"><span>GitHub</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="Instagram"><span>Instagram</span></div>
-    <div class="shortcut-item"><img src="images/test.jpg" alt="LinkedIn"><span>LinkedIn</span></div>
-  </div>
-
-  <hr>
-
-  <!-- Collapsible List 1 with Nested Items -->
-  <h4>Collapse List 1</h4>
-  <div class="menu">
-    <div class="header" onclick="toggle(this)">
-      <span><img src="images/test.jpg" class="icon-img"> Instagram</span>
-      <span class="indicator">+</span>
+  <!-- Thumbnails Section -->
+  <h4>Thumbnails</h4>
+  <a href="pages/list.html" target="_self">
+    <div class="list-item">
+      <img src="../images/test.jpg" class="thumb" alt="Thumbnail 1">
+      <div class="title">Video Thumbnail 1</div>
     </div>
-    <div class="content">
-      <div class="subheader" onclick="toggle(this)">
-        <span><img src="images/test.jpg" class="icon-img"> Twitter</span>
-        <span class="indicator">+</span>
-      </div>
-      <div class="content">
-        <div class="subheader" onclick="toggle(this)">
-          <span><img src="images/test.jpg" class="icon-img"> YouTube</span>
-          <span class="indicator">+</span>
-        </div>
-        <div class="content">
-          <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">My Playlist</a></p>
-          <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">Saved Videos</a></p>
-        </div>
-      </div>
+  </a>
+  <a href="pages/list.html" target="_self">
+    <div class="list-item">
+      <img src="../images/test.jpg" class="thumb" alt="Thumbnail 2">
+      <div class="title">Video Thumbnail 2</div>
     </div>
-  </div>
+  </a>
+  <a href="pages/list.html" target="_self">
+    <div class="list-item">
+      <img src="../images/test.jpg" class="thumb" alt="Thumbnail 3">
+      <div class="title">Video Thumbnail 3</div>
+    </div>
+  </a>
 
   <hr>
 
-  <!-- Collapsible List 2 -->
-  <h4>Collapse List 2</h4>
-  <div class="menu">
-    <div class="header" onclick="toggle(this)">
-      <span><img src="images/test.jpg" class="icon-img"> Facebook</span>
-      <span class="indicator">+</span>
+  <!-- Accounts Section -->
+  <h4>Accounts</h4>
+  <a href="pages/list.html" target="_self">
+    <div class="list-item">
+      <img src="../images/test.jpg" class="account-pic" alt="Account 1">
+      <div class="title">My Account 1</div>
     </div>
-    <div class="content">
-      <p><img src="images/test.jpg" class="icon-img"><a href="pages/list.html" target="_self">My FB Page</a></p>
+  </a>
+  <a href="pages/list.html" target="_self">
+    <div class="list-item">
+      <img src="../images/test.jpg" class="account-pic" alt="Account 2">
+      <div class="title">My Account 2</div>
     </div>
+  </a>
+
+  <hr>
+
+  <!-- Notes Section -->
+  <h4>Notes</h4>
+  <div class="note-box">
+    <h3>🚨 Critical Notes</h3>
+    <ul>
+      <li>Changes made here are irreversible.</li>
+      <li>Always backup your data before updating.</li>
+      <li>Check filenames for correct casing — it's case-sensitive.</li>
+    </ul>
   </div>
 
   <!-- Floating Navigation Buttons -->
@@ -258,20 +211,8 @@
   <button id="scrollTopBtn">&#8593;</button>
   <button id="forwardBtn">&#8594;</button>
 
-  <!-- JavaScript for Toggle and Navigation -->
+  <!-- JavaScript for Button Actions -->
   <script>
-    function toggle(element) {
-      const content = element.nextElementSibling;
-      const icon = element.querySelector('.indicator');
-      if (content.style.display === 'block') {
-        content.style.display = 'none';
-        icon.textContent = '+';
-      } else {
-        content.style.display = 'block';
-        icon.textContent = '−';
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
       const scrollBtn = document.getElementById('scrollTopBtn');
       const backBtn = document.getElementById('backBtn');
