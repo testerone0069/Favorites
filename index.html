@@ -58,10 +58,44 @@
         background: #222;
         color: #00ffff;
     }
+
+    /* Gallery Styling */
+    #img {
+        max-width: 90%;
+        height: auto;
+        border: 2px solid #444;
+        border-radius: 10px;
+        margin: 20px 0 15px 0;
+    }
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        max-width: 500px;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    button, select {
+        padding: 8px 16px;
+        background: #111;
+        color: #00d1ff;
+        border: 1px solid #444;
+        border-radius: 5px;
+        cursor: pointer;
+        flex: 1;
+    }
+    button:hover, select:hover {
+        background: #222;
+    }
+    select {
+        max-width: 150px;
+    }
 </style>
 </head>
 <body>
 
+<!-- Info Blocks -->
 <div class="block">
     <h2>Random Quote</h2>
     <button class="refresh-btn" onclick="fetchRandomQuote()">↻</button>
@@ -98,7 +132,21 @@ https://api.quotable.io/random
     </pre>
 </div>
 
+<!-- Image Gallery Section -->
+<img id="img" src="" alt="Image will appear here">
+
+<div class="controls">
+    <button onclick="showPrevious()">&#8592;</button>
+    <select id="category" onchange="resetGallery()">
+        <option value="nature">Nature</option>
+        <option value="animals">Animals</option>
+        <option value="cars">Cars</option>
+    </select>
+    <button onclick="showNext()">&#8594;</button>
+</div>
+
 <script>
+/* Info Block Functions */
 function pad(n) {
     return n < 10 ? '0' + n : n;
 }
@@ -192,6 +240,46 @@ updateDateTime();
 updateCountdowns();
 fetchRandomFact();
 fetchRandomQuote();
+
+/* Gallery Functions */
+const imageCounts = {
+    nature: 10,
+    animals: 8,
+    cars: 5
+};
+
+let currentIndex = 1;
+let currentCategory = 'nature';
+
+function updateImage() {
+    const total = imageCounts[currentCategory];
+    if (currentIndex < 1) currentIndex = total;
+    if (currentIndex > total) currentIndex = 1;
+
+    const imgUrl = `images/${currentCategory}/${currentIndex}.jpg`;
+
+    const img = document.getElementById('img');
+    img.src = imgUrl;
+    img.alt = `${currentCategory} Image ${currentIndex}`;
+}
+
+function showPrevious() {
+    currentIndex--;
+    updateImage();
+}
+
+function showNext() {
+    currentIndex++;
+    updateImage();
+}
+
+function resetGallery() {
+    currentCategory = document.getElementById('category').value;
+    currentIndex = 1;
+    updateImage();
+}
+
+window.onload = updateImage;
 </script>
 
 </body>
