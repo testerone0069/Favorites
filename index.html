@@ -50,6 +50,12 @@
             white-space: nowrap;
             color: yellow;
         }
+        #countdown-month {
+            font-size: 4vw;
+            margin-top: 10px;
+            white-space: nowrap;
+            color: cyan;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +64,7 @@
     <div id="clock"></div>
     <div id="date"></div>
     <div id="countdown"></div>
+    <div id="countdown-month"></div> <!-- New countdown for the end of the month -->
 
     <script>
         function updateClock() {
@@ -83,6 +90,18 @@
             const secondsRemaining = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
             document.getElementById('countdown').textContent = `${daysRemaining}d ${hoursRemaining}h ${minutesRemaining}m ${secondsRemaining}s`;
+
+            // Countdown for the end of the month
+            const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1); // First day of next month
+            const endOfMonth = new Date(nextMonth - 1); // Last day of current month
+            const timeRemainingMonth = endOfMonth - now;
+
+            const daysRemainingMonth = Math.floor(timeRemainingMonth / (1000 * 60 * 60 * 24));
+            const hoursRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-month').textContent = `${daysRemainingMonth}d ${hoursRemainingMonth}h ${minutesRemainingMonth}m ${secondsRemainingMonth}s`;
         }
 
         setInterval(updateClock, 1000);
@@ -90,3 +109,4 @@
     </script>
 </body>
 </html>
+
