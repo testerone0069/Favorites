@@ -12,6 +12,8 @@
             user-select: none;
             -webkit-user-select: none; /* Safari */
             -ms-user-select: none;     /* IE/Edge */
+            overflow-x: auto;       /* Allow horizontal scroll if needed */
+            white-space: nowrap;
         }
 
         body {
@@ -24,7 +26,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden;       /* Allow horizontal scroll if needed */
+            white-space: nowrap;
         }
         #quote {
             font-family: 'Rock Salt', cursive;
