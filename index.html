@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase TODO List</title>
+  <title>Realtime TODO List</title>
   <style>
     body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
     h1 { text-align: center; }
@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <h1>TODO List</h1>
+  <h1>Realtime TODO List</h1>
 
   <input type="text" id="taskInput" placeholder="Enter task" />
   <button id="addBtn">Add</button>
@@ -23,7 +23,7 @@
   <ul id="taskList"></ul>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <script>
     // Your Firebase Config
@@ -38,56 +38,43 @@
       measurementId: "G-E4RWY91MPR"
     };
 
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const db = firebase.database();
 
     const taskInput = document.getElementById('taskInput');
     const addBtn = document.getElementById('addBtn');
     const taskList = document.getElementById('taskList');
 
-    // Add Task Function
+    // Add Task
     addBtn.addEventListener('click', () => {
       const text = taskInput.value.trim();
       if (text === '') return;
-      db.collection('tasks').add({
-        text: text,
-        timestamp: Date.now()
-      }).then(() => {
-        taskInput.value = '';
-        loadTasks();
-      }).catch(err => {
-        console.error('Error adding task:', err);
+
+      const newTaskRef = db.ref('tasks').push();
+      newTaskRef.set({
+        text: text
       });
+
+      taskInput.value = '';
     });
 
-    // Delete Task Function
-    function deleteTask(id) {
-      db.collection('tasks').doc(id).delete().then(() => {
-        loadTasks();
-      }).catch(err => {
-        console.error('Error deleting task:', err);
-      });
-    }
-
-    // Load Tasks from Firestore
-    function loadTasks() {
+    // Load Tasks in Real-Time
+    db.ref('tasks').on('value', (snapshot) => {
       taskList.innerHTML = '';
-      db.collection('tasks').orderBy('timestamp', 'desc').get().then(snapshot => {
-        snapshot.forEach(doc => {
-          const li = document.createElement('li');
-          li.textContent = doc.data().text;
-          
-          const delBtn = document.createElement('button');
-          delBtn.textContent = 'Delete';
-          delBtn.onclick = () => deleteTask(doc.id);
+      const tasks = snapshot.val();
+      for (let id in tasks) {
+        const li = document.createElement('li');
+        li.textContent = tasks[id].text;
 
-          li.appendChild(delBtn);
-          taskList.appendChild(li);
-        });
-      });
-    }
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = () => db.ref('tasks/' + id).remove();
 
-    loadTasks();
+        li.appendChild(delBtn);
+        taskList.appendChild(li);
+      }
+    });
   </script>
 
 </body>
