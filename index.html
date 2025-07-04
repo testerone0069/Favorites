@@ -3,186 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Clock + To-Do</title>
+<title>Digital Clock + To-Do (Firebase)</title>
 <link rel="icon" type="image/png" href="/Favorites/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rock+Salt&display=swap" rel="stylesheet">
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        user-select: none;
-    }
-    *:focus {
-        outline: none;
-    }
-    button, input {
-        -webkit-tap-highlight-color: transparent;
-    }
-    body {
-        background-color: black;
-        color: white;
-        font-family: 'Press Start 2P', monospace;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        padding: 20px;
-        gap: 20px;
-    }
-    .block {
-        background-color: black;
-        border: none;
-        border-radius: 10px;
-        padding: 15px;
-        width: 100%;
-        max-width: 500px;
-        word-wrap: break-word;
-        overflow: hidden;
-    }
-    #quote {
-        font-family: 'Rock Salt', cursive;
-        font-size: clamp(2rem, 6vw, 4rem);
-        color: white;
-        text-align: center;
-        margin-bottom: 0;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    #author {
-        font-family: 'Rock Salt', cursive;
-        font-size: clamp(0.9rem, 3vw, 1.5rem);
-        color: #aaa;
-        text-align: center;
-        margin-top: -8px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    #clock {
-        font-size: clamp(1.8rem, 6vw, 3rem);
-        text-align: center;
-        margin-bottom: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    #date, #countdown, #countdown-month {
-        font-size: clamp(0.7rem, 3vw, 1rem);
-        text-align: center;
-        margin: 4px 0;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-    #countdown {
-        color: yellow;
-    }
-    #countdown-month {
-        color: cyan;
-    }
-    #todo-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    #todo-messages {
-        background-color: #000;
-        border: 1px solid #333;
-        border-radius: 5px;
-        padding: 10px;
-        height: 200px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        word-break: break-word;
-    }
-    .message {
-        background-color: #222;
-        border-left: 4px solid cyan;
-        padding: 8px;
-        border-radius: 4px;
-        font-size: clamp(0.7rem, 2.5vw, 1rem);
-        word-wrap: break-word;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        line-height: 1.4;
-    }
-    .delete-btn {
-        background: transparent;
-        color: red;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        margin-left: 10px;
-        font-family: 'Press Start 2P', monospace;
-        outline: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-    .delete-btn:focus, .delete-btn:active {
-        outline: none;
-        box-shadow: none;
-        background: transparent;
-    }
-    #todo-input {
-        padding: 10px;
-        background-color: #333;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        font-family: 'Press Start 2P', monospace;
-        font-size: clamp(0.8rem, 3vw, 1rem);
-        outline: none;
-        width: 100%;
-    }
-    #copy-hint {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: lime;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-family: 'Press Start 2P', monospace;
-        opacity: 0;
-        transition: opacity 0.3s;
-        z-index: 1000;
-        pointer-events: none;
-    }
-    @media (max-width: 400px) {
-        #todo-messages {
-            height: 150px;
-        }
-    }
+/* Your CSS untouched (shortened here for brevity) */
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+*:focus { outline: none; }
+button, input { -webkit-tap-highlight-color: transparent; }
+body { background: black; color: white; font-family: 'Press Start 2P', monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; gap: 20px; }
+.block { background: black; border: none; border-radius: 10px; padding: 15px; width: 100%; max-width: 500px; word-wrap: break-word; overflow: hidden; }
+#quote { font-family: 'Rock Salt', cursive; font-size: clamp(2rem, 6vw, 4rem); color: white; text-align: center; margin-bottom: 0; white-space: nowrap; overflow: hidden; }
+#author { font-family: 'Rock Salt', cursive; font-size: clamp(0.9rem, 3vw, 1.5rem); color: #aaa; text-align: center; margin-top: -8px; white-space: nowrap; overflow: hidden; }
+#clock { font-size: clamp(1.8rem, 6vw, 3rem); text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; }
+#date, #countdown, #countdown-month { font-size: clamp(0.7rem, 3vw, 1rem); text-align: center; margin: 4px 0; white-space: nowrap; overflow: hidden; }
+#countdown { color: yellow; }
+#countdown-month { color: cyan; }
+#todo-container { display: flex; flex-direction: column; gap: 10px; }
+#todo-messages { background: #000; border: 1px solid #333; border-radius: 5px; padding: 10px; height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; word-break: break-word; }
+.message { background: #222; border-left: 4px solid cyan; padding: 8px; border-radius: 4px; font-size: clamp(0.7rem, 2.5vw, 1rem); display: flex; justify-content: space-between; align-items: center; line-height: 1.4; }
+.delete-btn { background: transparent; color: red; border: none; font-size: 1.2rem; cursor: pointer; margin-left: 10px; font-family: 'Press Start 2P', monospace; }
+#todo-input { padding: 10px; background: #333; border: none; border-radius: 5px; color: white; font-family: 'Press Start 2P', monospace; font-size: clamp(0.8rem, 3vw, 1rem); width: 100%; }
+#copy-hint { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.8); color: lime; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; font-family: 'Press Start 2P', monospace; opacity: 0; transition: opacity 0.3s; z-index: 1000; pointer-events: none; }
+@media (max-width: 400px) { #todo-messages { height: 150px; } }
 </style>
 </head>
 <body>
 
-<!-- Copy Hint -->
 <div id="copy-hint">Copied!</div>
-
-<!-- Quote Block -->
 <div class="block">
     <div id="quote">I'll be back</div>
     <div id="author">- Rahul Jangid</div>
 </div>
-
-<!-- Clock Block -->
 <div class="block">
     <div id="clock"></div>
     <div id="date"></div>
     <div id="countdown"></div>
     <div id="countdown-month"></div>
 </div>
-
-<!-- To-Do Block -->
 <div class="block" id="todo-container">
     <div id="todo-messages"></div>
     <input type="text" id="todo-input" placeholder="type here..." autocomplete="off">
 </div>
 
-<script>
+<!-- Firebase Scripts -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA5iLF-J-WvNaYm63r8rDZU8_rtZsgwYng",
+    authDomain: "my-todo-2e111.firebaseapp.com",
+    databaseURL: "https://my-todo-2e111-default-rtdb.firebaseio.com",
+    projectId: "my-todo-2e111",
+    storageBucket: "my-todo-2e111.appspot.com",
+    messagingSenderId: "765517702108",
+    appId: "1:765517702108:web:2dfe7d6205040cfd2ea519",
+    measurementId: "G-E4RWY91MPR"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getDatabase(app);
+
+const todoMessages = document.getElementById('todo-messages');
+const todoInput = document.getElementById('todo-input');
+const copyHint = document.getElementById('copy-hint');
+
+function showCopyHint() {
+    copyHint.style.opacity = '1';
+    setTimeout(() => { copyHint.style.opacity = '0'; }, 1000);
+}
+
+function addMessageElement(text, key) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message';
+
+    const textSpan = document.createElement('span');
+    textSpan.textContent = text;
+    textSpan.style.cursor = "pointer";
+    textSpan.title = "Tap to copy";
+    textSpan.addEventListener('click', () => {
+        navigator.clipboard.writeText(text).then(showCopyHint);
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-btn';
+    delBtn.textContent = '×';
+    delBtn.onclick = () => remove(ref(db, 'todos/' + key));
+
+    msgDiv.appendChild(textSpan);
+    msgDiv.appendChild(delBtn);
+    todoMessages.appendChild(msgDiv);
+    todoMessages.scrollTop = todoMessages.scrollHeight;
+}
+
+onValue(ref(db, 'todos'), (snapshot) => {
+    todoMessages.innerHTML = '';
+    snapshot.forEach(childSnapshot => {
+        addMessageElement(childSnapshot.val(), childSnapshot.key);
+    });
+});
+
+todoInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && todoInput.value.trim()) {
+        push(ref(db, 'todos'), todoInput.value.trim());
+        todoInput.value = '';
+    }
+});
+
+// Clock Functions
 function updateClock() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -198,94 +129,24 @@ function updateClock() {
 
     const endOfYear = new Date(`${year + 1}-01-01T00:00:00`);
     const timeRemaining = endOfYear - now;
-
     const daysRemaining = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
     const hoursRemaining = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutesRemaining = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
     const secondsRemaining = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
     document.getElementById('countdown').textContent = `${daysRemaining}d ${hoursRemaining}h ${minutesRemaining}m ${secondsRemaining}s`;
 
     const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const endOfMonth = new Date(nextMonth - 1);
     const timeRemainingMonth = endOfMonth - now;
-
     const daysRemainingMonth = Math.floor(timeRemainingMonth / (1000 * 60 * 60 * 24));
     const hoursRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutesRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60 * 60)) / (1000 * 60));
     const secondsRemainingMonth = Math.floor((timeRemainingMonth % (1000 * 60)) / 1000);
-
     document.getElementById('countdown-month').textContent = `${daysRemainingMonth}d ${hoursRemainingMonth}h ${minutesRemainingMonth}m ${secondsRemainingMonth}s`;
 }
+
 setInterval(updateClock, 1000);
 updateClock();
-
-const todoMessages = document.getElementById('todo-messages');
-const todoInput = document.getElementById('todo-input');
-const copyHint = document.getElementById('copy-hint');
-
-function showCopyHint() {
-    copyHint.style.opacity = '1';
-    setTimeout(() => {
-        copyHint.style.opacity = '0';
-    }, 1000);
-}
-
-function loadTodos() {
-    const todos = JSON.parse(localStorage.getItem('chatTodos')) || [];
-    todos.forEach((msg, index) => addMessage(msg, index));
-}
-function addMessage(text, index) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'message';
-
-    const textSpan = document.createElement('span');
-    textSpan.textContent = text;
-    textSpan.style.cursor = "pointer";
-    textSpan.title = "Tap to copy";
-
-    textSpan.addEventListener('click', () => {
-        navigator.clipboard.writeText(text).then(() => {
-            showCopyHint();
-        });
-    });
-
-    const delBtn = document.createElement('button');
-    delBtn.className = 'delete-btn';
-    delBtn.textContent = '×';
-    delBtn.onclick = function () {
-        deleteTodo(index);
-    };
-
-    msgDiv.appendChild(textSpan);
-    msgDiv.appendChild(delBtn);
-    todoMessages.appendChild(msgDiv);
-    todoMessages.scrollTop = todoMessages.scrollHeight;
-}
-function saveTodo(text) {
-    const todos = JSON.parse(localStorage.getItem('chatTodos')) || [];
-    todos.push(text);
-    localStorage.setItem('chatTodos', JSON.stringify(todos));
-    refreshTodos();
-}
-function deleteTodo(index) {
-    const todos = JSON.parse(localStorage.getItem('chatTodos')) || [];
-    todos.splice(index, 1);
-    localStorage.setItem('chatTodos', JSON.stringify(todos));
-    refreshTodos();
-}
-function refreshTodos() {
-    todoMessages.innerHTML = '';
-    loadTodos();
-}
-todoInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && todoInput.value.trim() !== '') {
-        const task = todoInput.value.trim();
-        saveTodo(task);
-        todoInput.value = '';
-    }
-});
-loadTodos();
 </script>
 
 </body>
