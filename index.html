@@ -297,7 +297,7 @@
     }
 
     function deleteTodo(index) {
-        if (confirm('Are you sure ?')) {
+        if (confirm('Are you sure you want to permanently delete this task ?')) {
             db.ref('todos').once('value').then(snapshot => {
                 const todos = snapshot.val() || [];
                 todos.splice(index, 1);
