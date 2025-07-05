@@ -3,33 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Clock + To-Do</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet">
+<title>Rahul Jangid</title>
 <link rel="icon" type="image/png" href="/Favorites/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rock+Salt&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-    *:focus { outline: none; }
-    button, input { -webkit-tap-highlight-color: transparent; }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
     body {
-        background-color: black;
-        color: white;
-        font-family: 'Press Start 2P', monospace;
+        background: #000;
+        color: #fff;
+        font-family: 'Segoe UI', monospace;
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 100vh;
         padding: 20px;
+        min-height: 100vh;
         gap: 20px;
+        user-select: none;
     }
     .block {
-        background-color: black;
-        border: none;
-        border-radius: 10px;
-        padding: 15px;
         width: 100%;
         max-width: 500px;
-        word-wrap: break-word;
-        overflow: hidden;
+        background: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: none;
+        border: none;
     }
     #quote {
         font-family: 'Rock Salt', cursive;
@@ -49,86 +53,151 @@
         overflow: hidden;
     }
     #clock {
+        font-family: 'Press Start 2P', monospace;
         font-size: clamp(1.8rem, 6vw, 3rem);
         text-align: center;
+        margin-bottom: 10px;
         white-space: nowrap;
+        overflow: hidden;
     }
-    #date, #countdown, #countdown-month {
-        font-size: clamp(0.7rem, 3vw, 1rem);
+    #date {
+        font-family: 'Press Start 2P', monospace;
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
         text-align: center;
+        margin: 4px 0;
         white-space: nowrap;
+        overflow: hidden;
     }
-    #countdown { color: yellow; }
-    #countdown-month { color: cyan; }
-    #todo-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+    #countdown {
+        font-family: 'Press Start 2P', monospace;
+        font-size: clamp(0.8rem, 3vw, 1.1rem);
+        color: yellow;
+        text-align: center;
+        margin: 4px 0;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    #countdown-month {
+        font-family: 'Press Start 2P', monospace;
+        font-size: clamp(0.7rem, 3vw, 1rem);
+        color: cyan;
+        text-align: center;
+        margin: 4px 0;
+        white-space: nowrap;
+        overflow: hidden;
     }
     #todo-messages {
-        background-color: #000;
-        border: 1px solid #333;
-        border-radius: 5px;
-        padding: 10px;
+        background: #000;
+        border: 1px solid #444;
         height: 200px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        word-break: break-word;
+        padding: 10px;
+        border-radius: 5px;
+        scrollbar-width: thin;
+        scrollbar-color: cyan transparent;
+    }
+    #todo-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+    #todo-messages::-webkit-scrollbar-thumb {
+        background: cyan;
+        border-radius: 3px;
     }
     .message {
-        background-color: #222;
+        background: #222;
+        padding: 10px;
         border-left: 4px solid cyan;
-        padding: 8px;
-        border-radius: 4px;
-        font-size: clamp(0.7rem, 2.5vw, 1rem);
+        font-family: 'Exo 2', monospace;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        line-height: 1.4;
-        word-wrap: break-word;
+        border-radius: 4px;
+        word-break: break-word;
+        font-size: 0.8rem;
     }
     .delete-btn {
         background: transparent;
         color: red;
         border: none;
-        font-size: 1.2rem;
         cursor: pointer;
-        margin-left: 10px;
-        font-family: 'Press Start 2P', monospace;
+        font-size: 1.4rem;
+        transition: transform 0.2s;
+        outline: none;
+        user-select: none;
+    }
+    .delete-btn:hover {
+        transform: scale(1.2);
     }
     #todo-input {
-        padding: 10px;
-        background-color: #333;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        font-family: 'Press Start 2P', monospace;
-        font-size: clamp(0.8rem, 3vw, 1rem);
         width: 100%;
+        padding: 12px;
+        border: 1px solid #444;
+        border-radius: 5px;
+        background: #333;
+        color: white;
+        margin-top: 10px;
+        outline: none;
+        font-size: 1rem;
+        transition: border 0.3s;
+        user-select: none;
     }
-    #copy-hint {
+    #todo-input:focus {
+        border-color: cyan;
+    }
+    button, input {
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    #copied-info {
         position: fixed;
         top: 20px;
         left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: lime;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-family: 'Press Start 2P', monospace;
+        transform: translateX(-50%) translateY(-20px);
+        background: cyan;
+        color: black;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 0.9rem;
         opacity: 0;
-        transition: opacity 0.3s;
-        z-index: 1000;
         pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    #copied-info.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    @media (max-width: 600px) {
+        body {
+            padding: 15px;
+            gap: 15px;
+        }
+        .block {
+            padding: 15px;
+        }
+        #quote {
+            font-size: clamp(2rem, 6vw, 4rem);
+        }
+        #clock {
+            font-size: clamp(1.8rem, 6vw, 3rem);
+        }
+        #date {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+        }
+        #countdown {
+            font-size: clamp(0.8rem, 3vw, 1.1rem);
+        }
+        #countdown-month {
+            font-size: clamp(0.7rem, 3vw, 1rem);
+        }
     }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rock+Salt&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div id="copy-hint">Copied!</div>
 
 <div class="block">
     <div id="quote">I'll be back</div>
@@ -142,91 +211,126 @@
     <div id="countdown-month"></div>
 </div>
 
-<div class="block" id="todo-container">
+<div class="block">
     <div id="todo-messages"></div>
-    <input type="text" id="todo-input" placeholder="type here..." autocomplete="off">
+    <input type="text" id="todo-input" placeholder="Type a task and press Enter..." autocomplete="off">
 </div>
 
+<div id="copied-info">Copied!</div>
+
 <script>
-// Clock and Countdown
-function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB');
-    document.getElementById('date').textContent = now.toDateString();
-
-    const yearEnd = new Date(now.getFullYear() + 1, 0, 1);
-    const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-
-    const updateCountdown = (end, elementId) => {
-        const diff = end - now;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-        const mins = Math.floor(diff / (1000 * 60)) % 60;
-        const secs = Math.floor(diff / 1000) % 60;
-        document.getElementById(elementId).textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5iLF-J-WvNaYm63r8rDZU8_rtZsgwYng",
+        authDomain: "my-todo-2e111.firebaseapp.com",
+        databaseURL: "https://my-todo-2e111-default-rtdb.firebaseio.com",
+        projectId: "my-todo-2e111",
+        storageBucket: "my-todo-2e111.appspot.com",
+        messagingSenderId: "765517702108",
+        appId: "1:765517702108:web:2dfe7d6205040cfd2ea519"
     };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    updateCountdown(yearEnd, 'countdown');
-    updateCountdown(monthEnd, 'countdown-month');
-}
-setInterval(updateClock, 1000);
-updateClock();
+    const todoMessages = document.getElementById('todo-messages');
+    const todoInput = document.getElementById('todo-input');
+    const copiedInfo = document.getElementById('copied-info');
 
-// To-Do List
-const todoMessages = document.getElementById('todo-messages');
-const todoInput = document.getElementById('todo-input');
-const copyHint = document.getElementById('copy-hint');
+    db.ref('todos').on('value', snapshot => {
+        const todos = snapshot.val() || [];
+        renderTodos(todos);
+    });
 
-function showCopyHint() {
-    copyHint.style.opacity = '1';
-    setTimeout(() => copyHint.style.opacity = '0', 1000);
-}
-function loadTodos() {
-    (JSON.parse(localStorage.getItem('chatTodos')) || []).forEach(addMessage);
-}
-function addMessage(text, index = null) {
-    const div = document.createElement('div');
-    div.className = 'message';
+    function renderTodos(todos) {
+        todoMessages.innerHTML = '';
+        todos.forEach((text, index) => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
 
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.style.cursor = "pointer";
-    span.title = "Tap to copy";
-    span.onclick = () => { navigator.clipboard.writeText(text).then(showCopyHint); };
+            const textSpan = document.createElement('span');
+            textSpan.textContent = text;
+            textSpan.style.cursor = 'pointer';
+            textSpan.addEventListener('click', () => {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopied();
+                }).catch(err => console.error('Copy failed:', err));
+            });
 
-    const del = document.createElement('button');
-    del.className = 'delete-btn';
-    del.textContent = '×';
-    del.onclick = () => deleteTodo(index);
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-btn';
+            delBtn.textContent = '×';
+            delBtn.onclick = () => deleteTodo(index);
 
-    div.appendChild(span);
-    div.appendChild(del);
-    todoMessages.appendChild(div);
-    todoMessages.scrollTop = todoMessages.scrollHeight;
-}
-function saveTodo(text) {
-    const todos = JSON.parse(localStorage.getItem('chatTodos')) || [];
-    todos.push(text);
-    localStorage.setItem('chatTodos', JSON.stringify(todos));
-    refreshTodos();
-}
-function deleteTodo(index) {
-    const todos = JSON.parse(localStorage.getItem('chatTodos')) || [];
-    todos.splice(index, 1);
-    localStorage.setItem('chatTodos', JSON.stringify(todos));
-    refreshTodos();
-}
-function refreshTodos() {
-    todoMessages.innerHTML = '';
-    (JSON.parse(localStorage.getItem('chatTodos')) || []).forEach(addMessage);
-}
-todoInput.addEventListener('keypress', e => {
-    if (e.key === 'Enter' && todoInput.value.trim()) {
-        saveTodo(todoInput.value.trim());
-        todoInput.value = '';
+            msgDiv.appendChild(textSpan);
+            msgDiv.appendChild(delBtn);
+            todoMessages.appendChild(msgDiv);
+            todoMessages.scrollTop = todoMessages.scrollHeight;
+        });
     }
-});
-loadTodos();
+
+    todoInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter' && todoInput.value.trim() !== '') {
+            addTodo(todoInput.value.trim());
+            todoInput.value = '';
+        }
+    });
+
+    function addTodo(text) {
+        db.ref('todos').once('value').then(snapshot => {
+            const todos = snapshot.val() || [];
+            todos.push(text);
+            db.ref('todos').set(todos);
+        });
+    }
+
+    function deleteTodo(index) {
+        db.ref('todos').once('value').then(snapshot => {
+            const todos = snapshot.val() || [];
+            todos.splice(index, 1);
+            db.ref('todos').set(todos);
+        });
+    }
+
+    function showCopied() {
+        copiedInfo.classList.add('show');
+        setTimeout(() => {
+            copiedInfo.classList.remove('show');
+        }, 1000);
+    }
+
+    function updateClock() {
+        const now = new Date();
+
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+        const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        const day = weekdays[now.getDay()];
+        const date = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        document.getElementById('date').textContent = `${day} ${date} ${month} ${year}`;
+
+        const endOfYear = new Date(now.getFullYear() + 1, 0, 1);
+        const msLeft = endOfYear - now;
+        const days = Math.floor(msLeft / (1000 * 60 * 60 * 24));
+        const hoursLeft = Math.floor((msLeft / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((msLeft / (1000 * 60)) % 60);
+        const secs = Math.floor((msLeft / 1000) % 60);
+        document.getElementById('countdown').textContent = `${days}d ${hoursLeft}h ${mins}m ${secs}s`;
+
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+        const msLeftMonth = endOfMonth - now;
+        const daysM = Math.floor(msLeftMonth / (1000 * 60 * 60 * 24));
+        const hoursM = Math.floor((msLeftMonth / (1000 * 60 * 60)) % 24);
+        const minsM = Math.floor((msLeftMonth / (1000 * 60)) % 60);
+        const secsM = Math.floor((msLeftMonth / 1000) % 60);
+        document.getElementById('countdown-month').textContent = `${daysM}d ${hoursM}h ${minsM}m ${secsM}s`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 </script>
 
 </body>
